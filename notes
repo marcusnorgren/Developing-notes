@@ -1,0 +1,37 @@
+VISUAL STUDIO:
+(!) Before build: check INSTALL in Win32 - Configuration Manager then build
+(!) When debugging: right click project --> properties --> C/C++ --> Optimization --> Disabled
+(!) Debug --> Attach to process (e.g. when debugging BMS)
+(!) Attach to process: find process by searching for plugin in Procexp.exe (Process explorer) - download if needed
+
+CMAKE: 
+If boost linker issues: might need to add:
+
+# Boost.
+find_package(Boost COMPONENTS thread)
+target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES}) 
+
+in the concerned projects cmake-file. (or something similar to thread, depends)
+
+Possible solutions to studio LINKER probems:
+1. Systemvariabler. Kontrollera vad boost-värden har där. Dvs, pekar den ut en mapp som heter rätt?
+
+2. CMakeLists nyttjar systemvariabeln för att ladda in det i studion. Du kan gå in och kolla i studion vad det faktiskt pekar ut. 
+Finnes under: <Ett projekt>\properties\Linker\Input\Additional Dependencies
+Den är rimligen satt som fel med 1_69_0 och genererar därför de linker error du får.
+Du hittar även includesen i C/C++\General\Additional Include directories\
+
+3. Kontrollera vad som finns i din mapp. Filerna som ligger i din boost mapp. Heter filerna rätt?
+Visual studio försöker uppenbarligen läsa några sorts filer. Gå in i den specifika mappen och kolla vad som är där och hur den kommit dit
+
+
+--------------------------------------------------------------------------------------------------------------------------
+Om problem med assembly reference i studion: Skriv  detta i en eleverad cmd: subst K: "C:\...path..." 
+för att lägga till referens för byggmiljön till pathen
+--------------------------------------------------------------------------------------------------------------------------
+COMMAND WINDOW:
+Find process listening to port: netstat -ano | findstr :<port>
+Find port info of process (PID): netstat -ano | find "<PID>"
+----------------------------------------------------------------------------------
+
+boost_interprocess - clear this if changed dou-file in ProgramData and want to test w/o doing Dobmake
